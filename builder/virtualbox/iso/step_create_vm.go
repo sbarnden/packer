@@ -65,6 +65,9 @@ func (s *stepCreateVM) Cleanup(state multistep.StateBag) {
 	driver := state.Get("driver").(vboxcommon.Driver)
 	ui := state.Get("ui").(packer.Ui)
 
+    // Sleep for a second to ensure file locks on VM disks have been released
+    time.Sleep(1 * time.Second)
+
 	ui.Say("Unregistering and deleting virtual machine...")
 	var err error = nil
 	for i := 0; i < 5; i++ {
